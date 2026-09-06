@@ -10,12 +10,22 @@ details > ::marker {
 	--y-theme-marker-color: var(--y-note-color);
 }
 
+:where(ul) {
+	padding: 0 1em 0 0;
+}
+
+:where(ol) {
+	// this works for single character list markers
+	// anything longer will require more padding
+	padding: 0 1.5em 0 0;
+}
+
 // fancy heading group
 :where(hgroup) {
 	h1 {
 		font-weight: var(--y-strongly-emphasized-text);
 		font-size: var(--y-title-text);
-		line-height: 2ex;
+		line-height: 3ex;
 	}
 
 	p {
