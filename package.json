@@ -5,7 +5,8 @@
 	"scripts": {
 		"dev": "astro dev",
 		"build": "astro build",
-		"preview": "astro preview"
+		"preview": "astro preview",
+		"new": "node etc/bin/lit.js"
 	},
 	"dependencies": {
 		"@astrojs/markdown-satteri": "^0.4.0",
