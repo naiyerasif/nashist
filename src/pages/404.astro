@@ -1,0 +1,27 @@
+---
+import DragTrail from "#components/DragTrail.astro";
+import RandomMessage from "#components/RandomMessage.astro";
+import Icon from "#components/Icon.astro";
+import Layout from "#layouts/Layout.astro";
+
+const pageInfo = {
+	title: "صفحہ نہیں ملا",
+	url: Astro.url.pathname
+};
+---
+<Layout {pageInfo} class="popout glitch">
+	<div slot="hero" class="hero-body">
+		<hgroup>
+			<h1 lang="en">404</h1>
+			<RandomMessage selector="p">
+				<p>صفحہ اب یہاں نہیں ہے</p>
+				<p hidden>صفحہ دستیاب نہیں</p>
+				<p hidden>صفحہ نہیں ملا</p>
+			</RandomMessage>
+		</hgroup>
+	</div>
+	<article class="post">
+		<div class="glitch-home"><Icon name="home"/> <a href="/">ہوم پر جائیں</a></div>
+	</article>
+	<DragTrail/>
+</Layout>

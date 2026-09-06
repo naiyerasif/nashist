@@ -1,0 +1,45 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "#layouts/Layout.astro";
+import Pagination from "#components/Pagination.astro";
+import siteInfo from "#utils/website.js";
+import { compare } from "#utils/datetime.js";
+import { Collections } from "#utils/schema.js";
+
+export async function getStaticPaths({ paginate }) {
+	const lits = (await getCollection(Collections.lit.id))
+		.sort((p1, p2) => compare(p1.data.date, p2.data.date));
+	return paginate(lits, { pageSize: siteInfo.limits.page });
+}
+
+const { page } = Astro.props;
+const pageInfo = {
+	title: `تخلیقات (صفحہ ${page.currentPage})`,
+	url: Astro.url.pathname,
+	previous: page?.url?.prev,
+	next: page?.url?.next
+};
+---
+
+<Layout {pageInfo} class="popout feed">
+	<div slot="hero" class="hero-body">
+		<hgroup>
+			<h1>تخلیقات</h1>
+			<p>
+				<span dir="ltr">{page.total}</span>
+				<span> اندرجات میں سے </span>
+				<span dir="ltr">{page.end + 1}&hellip;{page.start + 1}</span>
+			</p>
+		</hgroup>
+	</div>
+	{page.data.map(entry => 
+		<div class="card">
+			<div class="card-title">
+				<a href={`/${entry.id}`}>{entry.data.title}</a>
+			</div>
+		</div>)
+	}
+	<div slot="sidekick" class="sidekick-items">
+		<Pagination currentPage={page.currentPage} totalPages={page.lastPage} base="s"/>
+	</div>
+</Layout>

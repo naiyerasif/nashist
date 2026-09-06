@@ -1,0 +1,181 @@
+<script type="module" is:inline>
+window.__viewTransition = function(callback) {
+	const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+	// `update: fast` check is not needed since `startViewTransition` handles low-refresh-rate environments gracefully
+	if (!prefersReducedMotion && typeof document.startViewTransition === "function") {
+		document.startViewTransition(callback);
+		return;
+	}
+	callback();
+};
+</script>
+
+<script type="module" is:inline>
+// toggle global values
+function setTheme(theme) {
+	window.__theme = theme;
+	document.documentElement.dataset.theme = theme;
+}
+
+// set a theme and emit an event to broadcast this change
+window.__setTheme = function (theme) {
+	window.__viewTransition(() => {
+		setTheme(theme);
+		try {
+			localStorage.setItem("theme", theme);
+		} catch (err) {}
+		document.firstElementChild.dispatchEvent(new Event("themechange", {
+			bubbles: true, // allows this event to bubble up throughout DOM tree
+			composed: true // allows other DOM elements to listen to this event
+		}));
+	});
+}
+
+// watch for OS or browser preferences
+const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
+prefersDarkScheme.addEventListener("change", function (event) {
+	window.__setTheme(event.matches ? "dark" : "light");
+});
+
+// initialize the preferences when page loads
+let currentTheme;
+try {
+	currentTheme = localStorage.getItem("theme");
+} catch (err) {}
+setTheme(currentTheme || (prefersDarkScheme.matches ? "dark" : "light"));
+</script>
+
+<style is:inline>
+@font-face {
+	font-family: "Noto Nastaliq Urdu var";
+	font-display: swap;
+	src: url("/fonts/NotoNastaliqUrdu.var.woff2") format("woff2");
+	font-style: normal;
+	font-weight: 400 700;
+	font-named-instance: "Regular";
+	unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0897-08E1, U+08E3-08FF, U+0020, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC, U+102E0-102FB, U+10E60-10E7E, U+10EC2-10EC4, U+10EFC-10EFF, U+1EE00-1EE03, U+1EE05-1EE1F, U+1EE21-1EE22, U+1EE24, U+1EE27, U+1EE29-1EE32, U+1EE34-1EE37, U+1EE39, U+1EE3B, U+1EE42, U+1EE47, U+1EE49, U+1EE4B, U+1EE4D-1EE4F, U+1EE51-1EE52, U+1EE54, U+1EE57, U+1EE59, U+1EE5B, U+1EE5D, U+1EE5F, U+1EE61-1EE62, U+1EE64, U+1EE67-1EE6A, U+1EE6C-1EE72, U+1EE74-1EE77, U+1EE79-1EE7C, U+1EE7E, U+1EE80-1EE89, U+1EE8B-1EE9B, U+1EEA1-1EEA3, U+1EEA5-1EEA9, U+1EEAB-1EEBB, U+1EEF0-1EEF1;
+}
+
+@font-face {
+	font-family: "Noto Nastaliq Urdu";
+	font-display: swap;
+	src: url("/fonts/NotoNastaliqUrdu-Regular.woff2") format("woff2");
+	font-style: normal;
+	font-weight: 400;
+	unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0897-08E1, U+08E3-08FF, U+0020, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC, U+102E0-102FB, U+10E60-10E7E, U+10EC2-10EC4, U+10EFC-10EFF, U+1EE00-1EE03, U+1EE05-1EE1F, U+1EE21-1EE22, U+1EE24, U+1EE27, U+1EE29-1EE32, U+1EE34-1EE37, U+1EE39, U+1EE3B, U+1EE42, U+1EE47, U+1EE49, U+1EE4B, U+1EE4D-1EE4F, U+1EE51-1EE52, U+1EE54, U+1EE57, U+1EE59, U+1EE5B, U+1EE5D, U+1EE5F, U+1EE61-1EE62, U+1EE64, U+1EE67-1EE6A, U+1EE6C-1EE72, U+1EE74-1EE77, U+1EE79-1EE7C, U+1EE7E, U+1EE80-1EE89, U+1EE8B-1EE9B, U+1EEA1-1EEA3, U+1EEA5-1EEA9, U+1EEAB-1EEBB, U+1EEF0-1EEF1;
+}
+
+@font-face {
+	font-family: "Noto Nastaliq Urdu";
+	font-display: swap;
+	src: url("/fonts/NotoNastaliqUrdu-Medium.woff2") format("woff2");
+	font-style: normal;
+	font-weight: 500;
+	unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0897-08E1, U+08E3-08FF, U+0020, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC, U+102E0-102FB, U+10E60-10E7E, U+10EC2-10EC4, U+10EFC-10EFF, U+1EE00-1EE03, U+1EE05-1EE1F, U+1EE21-1EE22, U+1EE24, U+1EE27, U+1EE29-1EE32, U+1EE34-1EE37, U+1EE39, U+1EE3B, U+1EE42, U+1EE47, U+1EE49, U+1EE4B, U+1EE4D-1EE4F, U+1EE51-1EE52, U+1EE54, U+1EE57, U+1EE59, U+1EE5B, U+1EE5D, U+1EE5F, U+1EE61-1EE62, U+1EE64, U+1EE67-1EE6A, U+1EE6C-1EE72, U+1EE74-1EE77, U+1EE79-1EE7C, U+1EE7E, U+1EE80-1EE89, U+1EE8B-1EE9B, U+1EEA1-1EEA3, U+1EEA5-1EEA9, U+1EEAB-1EEBB, U+1EEF0-1EEF1;
+}
+
+@font-face {
+	font-family: "Noto Nastaliq Urdu";
+	font-display: swap;
+	src: url("/fonts/NotoNastaliqUrdu-SemiBold.woff2") format("woff2");
+	font-style: normal;
+	font-weight: 600;
+	unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0897-08E1, U+08E3-08FF, U+0020, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC, U+102E0-102FB, U+10E60-10E7E, U+10EC2-10EC4, U+10EFC-10EFF, U+1EE00-1EE03, U+1EE05-1EE1F, U+1EE21-1EE22, U+1EE24, U+1EE27, U+1EE29-1EE32, U+1EE34-1EE37, U+1EE39, U+1EE3B, U+1EE42, U+1EE47, U+1EE49, U+1EE4B, U+1EE4D-1EE4F, U+1EE51-1EE52, U+1EE54, U+1EE57, U+1EE59, U+1EE5B, U+1EE5D, U+1EE5F, U+1EE61-1EE62, U+1EE64, U+1EE67-1EE6A, U+1EE6C-1EE72, U+1EE74-1EE77, U+1EE79-1EE7C, U+1EE7E, U+1EE80-1EE89, U+1EE8B-1EE9B, U+1EEA1-1EEA3, U+1EEA5-1EEA9, U+1EEAB-1EEBB, U+1EEF0-1EEF1;
+}
+
+@font-face {
+	font-family: "Noto Nastaliq Urdu";
+	font-display: swap;
+	src: url("/fonts/NotoNastaliqUrdu-Bold.woff2") format("woff2");
+	font-style: normal;
+	font-weight: 700;
+	unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0897-08E1, U+08E3-08FF, U+0020, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC, U+102E0-102FB, U+10E60-10E7E, U+10EC2-10EC4, U+10EFC-10EFF, U+1EE00-1EE03, U+1EE05-1EE1F, U+1EE21-1EE22, U+1EE24, U+1EE27, U+1EE29-1EE32, U+1EE34-1EE37, U+1EE39, U+1EE3B, U+1EE42, U+1EE47, U+1EE49, U+1EE4B, U+1EE4D-1EE4F, U+1EE51-1EE52, U+1EE54, U+1EE57, U+1EE59, U+1EE5B, U+1EE5D, U+1EE5F, U+1EE61-1EE62, U+1EE64, U+1EE67-1EE6A, U+1EE6C-1EE72, U+1EE74-1EE77, U+1EE79-1EE7C, U+1EE7E, U+1EE80-1EE89, U+1EE8B-1EE9B, U+1EEA1-1EEA3, U+1EEA5-1EEA9, U+1EEAB-1EEBB, U+1EEF0-1EEF1;
+}
+
+@media (prefers-reduced-motion: no-preference), (update: fast) {
+	@view-transition {
+		navigation: auto;
+	}
+}
+
+:root {
+	--x-native-sans-font: ui-sans-serif, system-ui, -apple-system,
+		"Segoe UI", Roboto, Ubuntu, Cantarell, "Noto Sans", "Liberation Sans",
+		Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+		"Segoe UI Symbol", "Noto Color Emoji";
+	--x-urdu-font: "Jameel Noori Nastaleeq", "Urdu Typesetting", "Geeza Pro";
+	--y-body-font: "Noto Nastaliq Urdu", var(--x-urdu-font), var(--x-native-sans-font);
+
+	/* @link: https://utopia.fyi/type/calculator/?c=320,16,1.125,2056,20,1.2,6,2,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l&g=s,l,xl,12 */
+	--fluid-min-width: 320;
+	--fluid-max-width: 2056;
+
+	--fluid-screen: 100vw;
+	--fluid-bp: calc((var(--fluid-screen) - var(--fluid-min-width) / 16 * 1rem) / (var(--fluid-max-width) - var(--fluid-min-width)));
+
+	--f--1-min: 14.22;
+	--f--1-max: 16.67;
+	--x--1: calc(((var(--f--1-min) / 16) * 1rem) + (var(--f--1-max) - var(--f--1-min)) * var(--fluid-bp));
+
+	--f-0-min: 16.00;
+	--f-0-max: 20.00;
+	--x-0: calc(((var(--f-0-min) / 16) * 1rem) + (var(--f-0-max) - var(--f-0-min)) * var(--fluid-bp));
+
+	--f-1-min: 18.00;
+	--f-1-max: 24.00;
+	--x-1: calc(((var(--f-1-min) / 16) * 1rem) + (var(--f-1-max) - var(--f-1-min)) * var(--fluid-bp));
+
+	--f-5-min: 28.83;
+	--f-5-max: 49.77;
+	--x-5: calc(((var(--f-5-min) / 16) * 1rem) + (var(--f-5-max) - var(--f-5-min)) * var(--fluid-bp));
+
+	--x--1: clamp(0.8889rem, 0.8607rem + 0.1408vw, 1.0417rem);
+	--x-0: clamp(1rem, 0.9539rem + 0.2304vw, 1.25rem);
+	--x-1: clamp(1.125rem, 1.0559rem + 0.3456vw, 1.5rem);
+	--x-5: clamp(1.802rem, 1.5609rem + 1.2059vw, 3.1104rem);
+
+	--y-small-text: var(--x--1);
+	--y-normal-text: var(--x-0);
+	--y-title-text: var(--x-5);
+	--y-tagline-text: var(--x-1);
+
+	--x-icon-normal: 1.5rem;
+}
+
+@media screen and (min-width: 2056px) {
+	:root {
+		--fluid-screen: calc(var(--fluid-max-width) * 1px);
+	}
+}
+
+@supports (font-variation-settings: normal) {
+	:root {
+		--y-body-font: "Noto Nastaliq Urdu var", var(--x-urdu-font), var(--x-native-sans-font);
+	}
+}
+
+@media (pointer: coarse), (any-hover: none) {
+	:root {
+		--x-icon-normal: 24px;
+	}
+}
+
+.icon {
+	--z-icon-size: var(--y-icon-size, var(--x-icon-normal));
+	--z-icon-stroke: var(--y-icon-stroke, 2);
+	--z-icon-color: var(--y-icon-color, currentColor);
+	display: inline-block;
+	vertical-align: middle;
+	stroke: var(--z-icon-color);
+	stroke-width: var(--z-icon-stroke);
+	fill: none;
+	width: var(--z-icon-size);
+	height: var(--z-icon-size);
+	flex: none; /* prevent squeezed icons */
+}
+
+:where(theme-switcher):not(:defined) {
+	visibility: hidden !important;
+	display: none !important;
+}
+</style>

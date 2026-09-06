@@ -1,0 +1,30 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "#layouts/Layout.astro";
+import Icon from "#components/Icon.astro";
+import siteInfo, { paginationPathname } from "#utils/website.js";
+import { compare } from "#utils/datetime.js";
+import { Collections } from "#utils/schema.js";
+
+const lits = (await getCollection(Collections.lit.id))
+	.sort((p1, p2) => compare(p1.data.date, p2.data.date))
+	.slice(0, siteInfo.limits.page);
+
+const pageInfo = {
+	title: siteInfo.title,
+	url: Astro.url.pathname
+};
+---
+<Layout {pageInfo} class="popout feed">
+	<Fragment slot="hero"/>
+	{lits.map(entry => 
+		<div class="card">
+			<div class="card-title">
+				<a href={`/${entry.id}`}>{entry.data.title}</a>
+			</div>
+		</div>)
+	}
+	<!-- <div slot="sidekick" class="sidekick-items">
+		<a href={paginationPathname("s", 2)} class="button-link">مزید تخلیقات <Icon name="twist-right-up"/></a>
+	</div> -->
+</Layout>

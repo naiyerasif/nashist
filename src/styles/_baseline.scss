@@ -1,0 +1,455 @@
+@use "mixins";
+
+@mixin text-selection {
+	/// maintain text contrast ratio of 4.5:1
+	/// @link https://developer.mozilla.org/en-US/docs/Web/CSS/::selection#accessibility
+	background-color: var(--y-selection-bg-color);
+}
+
+::-moz-selection {
+	@include text-selection;
+}
+
+::selection {
+	@include text-selection;
+}
+
+::placeholder {
+	color: inherit;
+	/// maintain text contrast ratio of 4.5:1
+	/// @link https://developer.mozilla.org/en-US/docs/Web/CSS/::placeholder#color_contrast
+	opacity: 0.7;
+}
+
+::marker {
+	color: var(--y-theme-marker-color);
+}
+
+:focus-visible {
+	border-radius: var(--y-outline-radius, .15em);
+	outline-color: var(--y-outline-color, currentColor);
+	outline-style: solid;
+	outline-width: var(--y-outline-width, 0.15em);
+	outline-offset: var(--y-outline-offset, 0.25ch);
+}
+
+::-webkit-scrollbar,
+::-webkit-scrollbar-track {
+	background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: var(--y-accent-color);
+}
+
+:where(html) {
+	color: var(--y-body-color);
+	background-color: var(--y-body-bg-color);
+	scrollbar-color: var(--y-accent-color) transparent;
+}
+
+* {
+	box-decoration-break: clone;
+}
+
+:where(body) {
+	font-family: var(--y-body-font);
+	font-size: var(--y-normal-text);
+	font-weight: var(--y-regular-text);
+	font-kerning: normal;
+	text-decoration-skip-ink: auto;
+	text-underline-position: from-font;
+	/// @link https://developer.mozilla.org/en-US/docs/Web/CSS/-webkit-overflow-scrolling
+	-webkit-overflow-scrolling: touch;
+	accent-color: var(--y-accent-color);
+	caret-color: var(--y-accent-color);
+}
+
+[dir="ltr"],
+[lang="en"] {
+	font-family: var(--x-native-sans-font);
+}
+
+:where(a) {
+	color: var(--y-link-color);
+	text-decoration-line: underline;
+	text-decoration-style: solid;
+	text-decoration-thickness: var(--y-link-decoration-width, 0.2ex);
+	text-decoration-color: var(--y-link-decoration-color, currentColor);
+
+	* {
+		color: currentColor;
+		cursor: pointer;
+		touch-action: manipulation;
+		-webkit-tap-highlight-color: transparent;
+	}
+
+	&:active {
+		text-decoration-style: double;
+	}
+}
+
+:where(blockquote) {
+	padding-inline-start: var(--y-blockquote-padding, 1.5ch);
+	border-inline-start: 1px solid var(--y-theme-border);
+}
+
+:where(hr) {
+	display: block;
+	border: none;
+	block-size: 3rem;
+	background-color: transparent;
+	background-image: radial-gradient(circle, var(--y-theme-border) 1px, transparent 1px);
+	background-size: 10px 1px;
+	background-repeat: repeat;
+}
+
+:where(mark) {
+	color: var(--y-mark-color);
+	background-color: var(--y-mark-bg-color);
+	border-radius: 0.5ch;
+	padding-inline: 0.5ch;
+}
+
+:where(sub, sup) {
+	font-size: 0.8em;
+}
+
+:where(sub) {
+	vertical-align: sub;
+
+	// use alternative subscript glyphs
+	// progressive enhancement: supported in fonts with this opentype feature
+	@supports (font-variant-position: sub) {
+		vertical-align: baseline;
+		font-size: 100%;
+		line-height: inherit;
+		font-variant-position: sub;
+	}
+}
+
+:where(sup) {
+	vertical-align: super;
+
+	// use alternative superscript glyphs
+	// progressive enhancement: supported in fonts with this opentype feature
+	@supports (font-variant-position: super) {
+		vertical-align: baseline;
+		font-size: 100%;
+		line-height: inherit;
+		font-variant-position: super;
+	}
+}
+
+:where(i, em) {
+	color: var(--y-emphasis-color);
+}
+
+:where(b, strong) {
+	font-weight: var(--y-emphasized-text);
+	color: var(--y-emphasis-color);
+}
+
+:where(small) {
+	font-size: var(--y-small-text);
+}
+
+:where(cite, dfn, var) {
+	font-style: italic;
+}
+
+:where(data)::after {
+	content: attr(value);
+	font-family: var(--y-mono-font);
+	font-size: 0.95em;
+	padding-inline: 0.5ch;
+	border: 1px solid var(--y-theme-border);
+	border-radius: 0.5ch;
+	margin-inline-start: 0.5ch;
+}
+
+:where(kbd) {
+	display: inline-block;
+	font-family: var(--y-mono-font);
+	font-size: 0.9em;
+	cursor: default;
+	background-color: var(--y-theme-bg-color, var(--y-code-bg-color));
+	border: 1px solid var(--y-theme-border);
+	border-radius: 0.33em;
+	box-shadow: 0 2px 0 1px var(--y-theme-border);
+	padding-inline: 0.8ch;
+	position: relative;
+	text-align: center;
+	top: -1px;
+	min-inline-size: 3ch;
+
+	& > kbd,
+	& > kbd:is(:focus, :hover, :active) {
+		all: unset;
+	}
+
+	&:is(:focus, :hover, :active) {
+		box-shadow: 0 1px 0 .5px var(--y-theme-border);
+		top: 1px;
+
+		@include mixins.whenAnimated {
+			transition: box-shadow 145ms var(--y-transition-function);
+		}
+	}
+}
+
+:where(code, samp, tt, pre) {
+	font-family: var(--y-mono-font);
+	font-size: 0.9em;
+	border-radius: 0.5ch;
+}
+
+:where(code, samp, tt) {
+	border: 1px solid var(--y-theme-border);
+	padding-inline: 0.5ch;
+}
+
+:where(pre) {
+	overflow: hidden;
+
+	code {
+		display: block;
+		background: none;
+		overflow: auto;
+		border: none;
+		white-space: pre;
+	}
+}
+
+:where(details) {
+	--z-details-vgap: var(--y-flow-gap, 0.5em);
+	--z-details-hgap: calc(var(--z-details-vgap) * 2);
+
+	display: block;
+	border: 1px solid var(--y-theme-border);
+	border-radius: var(--y-details-radius);
+	padding: 0 var(--z-details-hgap) 0;
+
+	summary {
+		@include mixins.texture;
+		background-color: var(--y-theme-canvas-color, var(--y-note-canvas-color));
+		margin: 0 calc(var(--z-details-hgap) * -1) 0;
+		padding: 0.25em var(--z-details-hgap) 0.5em;
+		border-radius: var(--y-details-radius);
+		cursor: pointer;
+
+		&:focus-visible {
+			border-radius: var(--y-details-radius);
+		}
+	}
+
+	&[open] {
+		padding-block-end: var(--z-details-vgap);
+
+		summary {
+			border-block-end: 1px solid var(--y-theme-border);
+			border-end-start-radius: 0;
+			border-end-end-radius: 0;
+		}
+	}
+
+	&:not([open]) > *:not(summary) {
+		display: none;
+	}
+}
+
+:where(img) {
+	border-radius: var(--y-media-radius);
+}
+
+:where(figcaption, caption) {
+	font-size: 0.75em;
+	color: var(--y-caption-color);
+}
+
+:where(p:empty) {
+	display: none;
+}
+
+:is(h1, h2, h3, h4, h5, h6) {
+	font-weight: var(--y-emphasized-text);
+	color: var(--y-emphasis-color);
+}
+
+:where(h1) {
+	font-size: 2.0273rem;
+}
+
+:where(h2) {
+	font-size: 1.802rem;
+}
+
+:where(h3) {
+	font-size: 1.6018rem;
+	opacity: 0.95;
+}
+
+:where(h4) {
+	font-size: 1.4238rem;
+	opacity: 0.9;
+}
+
+:where(h5) {
+	font-size: 1.2656rem;
+	opacity: 0.85;
+}
+
+:where(h6) {
+	font-size: 1.125rem;
+	opacity: 0.8;
+}
+
+:where(ol, ul) {
+	list-style-position: outside;
+}
+
+:where(ol) {
+	::marker {
+		// lines up the numeric markers nicely
+		// subject to the availablity of `tnum` opentype feature
+		// this has to be enabled by default or manually with `font-feature-settings: "tnum"`
+		font-variant-numeric: tabular-nums;
+	}
+}
+
+:where(dt) {
+	color: var(--y-emphasis-color);
+	font-weight: var(--y-emphasized-text);
+}
+
+:where(dd) {
+	margin-inline-start: 2em;
+}
+
+:where(table) {
+	--z-table-border-width: 0.5px;
+
+	display: block;
+	overflow-x: auto;
+	max-inline-size: fit-content;
+	font-size: 0.9em;
+	// make all numbers of the same size
+	// progressive enhancement: supported in fonts with this opentype feature
+	font-variant-numeric: tabular-nums;
+	border-collapse: separate;
+	border-spacing: 0;
+	border: var(--z-table-border-width) solid var(--y-theme-border);
+	border-radius: calc(var(--y-table-radius) + var(--z-table-border-width));
+
+	pre {
+		white-space: pre-wrap;
+	}
+
+	th, td {
+		border-width: var(--z-table-border-width);
+	}
+
+	tr:first-child {
+		th:first-child {
+			border-start-start-radius: var(--y-table-radius);
+		}
+
+		th:last-child {
+			border-start-end-radius: var(--y-table-radius);
+		}
+	}
+
+	tr:last-child {
+		td:first-child {
+			border-end-start-radius: var(--y-table-radius);
+		}
+
+		td:last-child {
+			border-end-end-radius: var(--y-table-radius);
+		}
+	}
+}
+
+:where(th) {
+	font-weight: var(--y-emphasized-text);
+}
+
+:where(th, td) {
+	font-size: 1em;
+	padding: 0.25rem 0.75rem 0.5rem;
+	border: 1px solid var(--y-theme-border);
+}
+
+:where(thead, tfoot) {
+	tr {
+		th, td {
+			background-color: var(--y-theme-canvas-color);
+		}
+	}
+
+	th,
+	td {
+		color: var(--y-emphasis-color);
+	}
+}
+
+@include mixins.formElements {
+	--y-outline-radius: var(--y-form-radius);
+	background-color: var(--y-form-bg-color);
+	border: 1px solid var(--y-form-border);
+	border-radius: var(--y-form-radius);
+	padding: 0.2rem 0.5rem 0.4rem;
+}
+
+@include mixins.buttonLikeElements {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5ch;
+	padding-block: 0.5rem;
+	color: var(--y-button-color);
+	@include mixins.texture;
+}
+
+// subdue the reset button
+:where(input[type="reset"]) {
+	filter: saturate(30%);
+}
+
+:where(input[type="file"]) {
+	--y-outline-color: var(--y-strong-accent-color);
+	--y-outline-radius: var(--y-form-radius);
+}
+
+:where(input[type="color"]) {
+	padding: 0.3rem;
+	vertical-align: middle;
+}
+
+// Fix the invisible range input on Safari and apply accent color
+@supports (-apple-pay-button-style: inherit) {
+	:where(input[type="range"]) {
+		&::-webkit-slider-runnable-track {
+			background-color: var(--y-button-color);
+			height: 0.3rem;
+			border-radius: var(--x-radius-max);
+		}
+	
+		&::-webkit-slider-thumb {
+			margin-top: -6px;
+		}
+	}
+}
+
+:is(
+	::-webkit-calendar-picker-indicator,
+	::-webkit-clear-button,
+	::-webkit-inner-spin-button,
+	::-webkit-outer-spin-button
+) {
+	color: var(--y-accent-color);
+}
+
+:where(fieldset) {
+	border: 1px solid var(--y-theme-border);
+	border-radius: var(--y-form-radius);
+}

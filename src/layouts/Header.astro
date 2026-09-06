@@ -1,0 +1,16 @@
+---
+import siteInfo from "#utils/website.js";
+
+const logoAlt = siteInfo.title;
+---
+
+<header class="header" id="header">
+	<div class="navbar-primary">
+		<a href="/" class="brand" style="--brandSize:1.7rem">
+			<img src="/logo.svg" alt={logoAlt} style="width:var(--brandSize);height:var(--brandSize)">
+		</a>
+	</div>
+	<nav class="navbar-secondary">
+		<a href="/s/" class="nav-item">تخلیقات</a>
+	</nav>
+</header>

@@ -1,0 +1,37 @@
+---
+import { getCollection, render } from "astro:content";
+import Layout from "#layouts/Layout.astro";
+import { Collections } from "#utils/schema.js";
+
+export async function getStaticPaths() {
+	const pages = await getCollection(Collections.page.id);
+	return pages.map(entry => ({
+			params: { id: entry.id },
+			props: { entry }
+		}));
+}
+
+const { entry } = Astro.props;
+const { data } = entry;
+const { Content } = await render(entry);
+
+const pageInfo = {
+	title: data.title,
+	url: Astro.url.pathname,
+	published: data.date,
+	updated: data.update,
+};
+---
+<Layout {pageInfo} class="popout">
+	<Fragment slot="hero">
+		<div class="hero-body">
+			<hgroup>
+				<h1>{data.title}</h1>
+				{data.tagline && <p>{data.tagline}</p>}
+			</hgroup>
+		</div>
+	</Fragment>
+	<article class="post">
+		<Content/>
+	</article>
+</Layout>

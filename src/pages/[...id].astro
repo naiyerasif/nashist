@@ -1,0 +1,75 @@
+---
+import { getCollection, getEntries, render } from "astro:content";
+import Layout from "#layouts/Layout.astro";
+import SharePanel from "#components/SharePanel.astro";
+import { compare } from "#utils/datetime.js";
+import { Collections } from "#utils/schema.js";
+
+export async function getStaticPaths() {
+	const items = await getCollection(Collections.lit.id);
+	return items.sort((p1, p2) => compare(p1.data.date, p2.data.date))
+		.map((item, index, items) => ({ item: item, prev: items[index - 1], next: items[index + 1] }))
+		.map(entry => ({
+			params: { id: entry.item.id },
+			props: { entry }
+		}));
+}
+
+const { entry } = Astro.props;
+const { item, prev, next } = entry;
+const { data } = item;
+const { Content } = await render(item);
+const url = Astro.url.pathname;
+const prevPage = prev ? `/${prev.id}` : undefined;
+const nextPage = next ? `/${next.id}` : undefined;
+const hasRecommendations = prevPage || nextPage;
+const writers = (await getEntries(data.writer)).map(w => w.data);
+const isPoetry = url.startsWith("/poetry/") ? "is-poetry" : "";
+
+const pageInfo = {
+	title: data.title,
+	url,
+	source: item.filePath,
+	type: "article",
+	published: data.date,
+	updated: data.update,
+	previous: prevPage,
+	next: nextPage
+};
+---
+
+<Layout {pageInfo} class="popout">
+	<Fragment slot="hero">
+		<div class="hero-body">
+			<hgroup class:list={[isPoetry]}>
+				<h1>{data.title}</h1>
+				{data.tagline && <p>{data.tagline}</p>}
+			</hgroup>
+		</div>
+		<div class:list={["hero-footer", isPoetry]}>
+			{writers.map(w => w.url ?
+				<a href={w.url} class="writer" rel="nofollow noopener noreferrer">{w.name}</a> : <span class="writer">{w.name}</span>)}
+		</div>
+	</Fragment>
+	<article class="post">
+		<Content/>
+	</article>
+	<Fragment slot="sidekick">
+		<div class="sidekick-panels">
+			<SharePanel {pageInfo}/>
+		</div>
+
+		{hasRecommendations && <ul class="rec">
+			{prevPage &&
+				<li class="rec-prev">
+					<a href={prevPage}>{prev.data.title}</a>
+				</li>
+			}
+			{nextPage &&
+				<li class="rec-next">
+					<a href={nextPage}>{next.data.title}</a>
+				</li>
+			}
+		</ul>}
+	</Fragment>
+</Layout>
