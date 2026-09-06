@@ -1,0 +1,6 @@
+allowBuilds:
+  '@parcel/watcher': false
+  esbuild: true
+  puppeteer: false
+  sharp: true
+  workerd: true

@@ -1,0 +1,44 @@
+# aws
+.aws/
+
+# build output
+dist/
+.astro/
+
+# dependencies
+node_modules/
+
+# logs
+logs/
+*.log*
+
+# environment variables
+.env
+.env.*
+
+# os-specific
+.DS_Store
+Thumbs.db
+
+# jetbrains setting folder
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# obsidian
+.obsidian/
+
+# sublimetext
+*.sublime-workspace
+*.sublime-project
+
+# vscode
+.vscode/
+
+# workspace
+.workspace
+
+# zed
+.ropeproject/
+.zed/
