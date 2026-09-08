@@ -13,7 +13,7 @@
 		"@sindresorhus/slugify": "^3.0.1",
 		"astro": "^7.3.1",
 		"dayjs": "^1.11.23",
-		"postcss-preset-env": "^11.5.1",
+		"postcss-preset-env": "^11.5.2",
 		"sass": "^1.104.0",
 		"satteri": "^0.10.5",
 		"sharp": "^0.35.4"

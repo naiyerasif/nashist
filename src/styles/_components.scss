@@ -25,7 +25,7 @@ details > ::marker {
 	h1 {
 		font-weight: var(--y-strongly-emphasized-text);
 		font-size: var(--y-title-text);
-		line-height: 3ex;
+		line-height: calc(1rem + 3ex);
 	}
 
 	p {
