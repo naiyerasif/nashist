@@ -1,14 +1,9 @@
 ---
-import slugify from "#utils/slugifier.js";
-
-const { name, alt, class: className, ...attributes } = Astro.props;
-const id = alt ? slugify(alt) : undefined;
+const { name, class: className, ...attributes } = Astro.props;
 ---
 <svg role="img"
 	class:list={["icon", className]}
-	aria-hidden={!alt ? "true" : undefined}
-	aria-labelledby={id}
+	aria-hidden="true"
 	{...attributes}>
-  {alt && <title {id}>{alt}</title>}
   <use href={`#y-${name}`} />
 </svg>

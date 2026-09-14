@@ -7,7 +7,7 @@ import * as p from "@clack/prompts";
 import dayjs from "dayjs";
 import timezone from "dayjs/plugin/timezone.js";
 import utc from "dayjs/plugin/utc.js";
-import slugify from "#utils/slugifier.js";
+import slugify from "./index.js";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);

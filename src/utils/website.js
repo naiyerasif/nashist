@@ -4,7 +4,7 @@ const siteInfo = {
 	siteBase: "https://nashist.naiyerasif.com",
 	repository: "https://github.com/naiyerasif/nashist",
 	cover: "/images/opengraph/default.png",
-	limits: { page: 20 },
+	limits: { page: 100 },
 	get issueBase() {
 		return `${this.repository}/issues/new`;
 	}
