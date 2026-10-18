@@ -1,7 +1,7 @@
 {
 	"name": "nashist.naiyerasif.com",
 	"type": "module",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"scripts": {
 		"dev": "astro dev",
 		"build": "astro build",
@@ -9,20 +9,20 @@
 		"new": "node etc/bin/lit.js"
 	},
 	"dependencies": {
-		"@astrojs/markdown-satteri": "^0.4.1",
-		"astro": "^7.3.2",
+		"@astrojs/markdown-satteri": "^0.4.4",
+		"astro": "^7.4.0",
 		"dayjs": "^1.11.23",
-		"postcss-preset-env": "^11.5.3",
-		"sass": "^1.104.1",
+		"postcss-preset-env": "^11.6.1",
+		"sass": "^1.105.2",
 		"satteri": "^0.10.5"
 	},
 	"devDependencies": {
-		"@clack/prompts": "^1.8.0"
+		"@clack/prompts": "^1.8.1"
 	},
 	"imports": {
 		"#components/*": "./src/components/*",
 		"#layouts/*": "./src/layouts/*",
 		"#utils/*": "./src/utils/*"
 	},
-	"packageManager": "pnpm@12.4.1"
+	"packageManager": "pnpm@12.14.0"
 }

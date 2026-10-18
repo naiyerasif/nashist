@@ -10,16 +10,13 @@ const pageInfo = {
 };
 ---
 <Layout {pageInfo} class="popout glitch">
-	<div slot="hero" class="hero-body">
-		<hgroup>
-			<h1 lang="en">404</h1>
-			<RandomMessage selector="p">
-				<p>صفحہ اب یہاں نہیں ہے</p>
-				<p hidden>صفحہ دستیاب نہیں</p>
-				<p hidden>صفحہ نہیں ملا</p>
-			</RandomMessage>
-		</hgroup>
-	</div>
+	<Fragment slot="hero">
+		<RandomMessage selector="p" class="hero-footer">
+			<p>صفحہ اب یہاں نہیں ہے</p>
+			<p hidden>صفحہ دستیاب نہیں</p>
+			<p hidden>صفحہ نہیں ملا</p>
+		</RandomMessage>
+	</Fragment>
 	<article class="post">
 		<div class="glitch-home"><Icon name="home"/> <a href="/">ہوم پر جائیں</a></div>
 	</article>

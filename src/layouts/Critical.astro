@@ -121,23 +121,11 @@ setTheme(currentTheme || (prefersDarkScheme.matches ? "dark" : "light"));
 	--f-0-max: 20.00;
 	--x-0: calc(((var(--f-0-min) / 16) * 1rem) + (var(--f-0-max) - var(--f-0-min)) * var(--fluid-bp));
 
-	--f-1-min: 18.00;
-	--f-1-max: 24.00;
-	--x-1: calc(((var(--f-1-min) / 16) * 1rem) + (var(--f-1-max) - var(--f-1-min)) * var(--fluid-bp));
-
-	--f-5-min: 28.83;
-	--f-5-max: 49.77;
-	--x-5: calc(((var(--f-5-min) / 16) * 1rem) + (var(--f-5-max) - var(--f-5-min)) * var(--fluid-bp));
-
 	--x--1: clamp(0.8889rem, 0.8607rem + 0.1408vw, 1.0417rem);
 	--x-0: clamp(1rem, 0.9539rem + 0.2304vw, 1.25rem);
-	--x-1: clamp(1.125rem, 1.0559rem + 0.3456vw, 1.5rem);
-	--x-5: clamp(1.802rem, 1.5609rem + 1.2059vw, 3.1104rem);
 
 	--y-small-text: var(--x--1);
 	--y-normal-text: var(--x-0);
-	--y-title-text: var(--x-5);
-	--y-tagline-text: var(--x-1);
 
 	--x-icon-normal: 1.5rem;
 }
@@ -162,13 +150,11 @@ setTheme(currentTheme || (prefersDarkScheme.matches ? "dark" : "light"));
 
 .icon {
 	--z-icon-size: var(--y-icon-size, var(--x-icon-normal));
-	--z-icon-stroke: var(--y-icon-stroke, 2);
 	--z-icon-color: var(--y-icon-color, currentColor);
 	display: inline-block;
 	vertical-align: middle;
-	stroke: var(--z-icon-color);
-	stroke-width: var(--z-icon-stroke);
-	fill: none;
+	stroke: none;
+	fill: var(--z-icon-color);
 	width: var(--z-icon-size);
 	height: var(--z-icon-size);
 	flex: none; /* prevent squeezed icons */

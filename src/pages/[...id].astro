@@ -24,7 +24,6 @@ const prevPage = prev ? `/${prev.id}` : undefined;
 const nextPage = next ? `/${next.id}` : undefined;
 const hasRecommendations = prevPage || nextPage;
 const writers = (await getEntries(data.writer)).map(w => w.data);
-const isPoetry = url.startsWith("/poetry/") ? "is-poetry" : "";
 
 const pageInfo = {
 	title: data.title,
@@ -40,13 +39,9 @@ const pageInfo = {
 
 <Layout {pageInfo} class="popout">
 	<Fragment slot="hero">
-		<div class="hero-body">
-			<hgroup class:list={[isPoetry]}>
-				<h1>{data.title}</h1>
-				{data.tagline && <p>{data.tagline}</p>}
-			</hgroup>
-		</div>
-		<div class:list={["hero-footer", isPoetry]}>
+		<h1 class="hero-body">{data.title}</h1>
+		<span class="hero-separator">&mdash;</span>
+		<div class="hero-footer">
 			{writers.map(w => w.url ?
 				<a href={w.url} class="writer" rel="nofollow noopener noreferrer">{w.name}</a> : <span class="writer">{w.name}</span>)}
 		</div>
@@ -60,14 +55,14 @@ const pageInfo = {
 		</div>
 
 		{hasRecommendations && <ul class="rec">
-			{prevPage &&
-				<li class="rec-prev">
-					<a href={prevPage}>{prev.data.title}</a>
-				</li>
-			}
 			{nextPage &&
 				<li class="rec-next">
 					<a href={nextPage}>{next.data.title}</a>
+				</li>
+			}
+			{prevPage &&
+				<li class="rec-prev">
+					<a href={prevPage}>{prev.data.title}</a>
 				</li>
 			}
 		</ul>}

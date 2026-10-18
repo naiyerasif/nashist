@@ -20,24 +20,6 @@ details > ::marker {
 	padding: 0 1.5em 0 0;
 }
 
-// fancy heading group
-:where(hgroup) {
-	h1 {
-		font-weight: var(--y-strongly-emphasized-text);
-		font-size: var(--y-title-text);
-		line-height: calc(1rem + 3ex);
-	}
-
-	p {
-		font-size: var(--y-tagline-text);
-		text-wrap: balance;
-	}
-
-	h1 + p {
-		margin-block-start: 2rem;
-	}
-}
-
 .button-link {
 	--y-outline-radius: var(--y-form-radius);
 	--z-button-link-bg-color: var(--y-accent-bg-color);
@@ -87,10 +69,6 @@ figure {
 	}
 }
 
-.is-poetry {
-	text-align: center;
-}
-
 .card {
 	--card-gap: 0.75ch;
 
@@ -99,13 +77,10 @@ figure {
 	}
 
 	&:not(:last-child) {
-		// border-block-end: var(--x-border-sm) dotted var(--y-note-border);
 		padding-block-end: var(--card-gap);
 	}
 
 	&-title {
-		// font-size: var(--y-tagline-text);
-		// font-weight: var(--y-emphasized-text);
 		text-wrap: balance;
 	}
 }

@@ -23,7 +23,6 @@ const Collections = freeze({
 });
 
 const title = z.string().max(64);
-const tagline = z.string().optional();
 const date = z.coerce.date();
 const update = date.optional();
 const pageTypes = z.enum(Object.keys(PageType));
@@ -39,7 +38,6 @@ const People = z.object({
 
 const Lit = z.object({
 	title,
-	tagline,
 	date,
 	update,
 	writer: z.array(reference(Collections.people.id)),
@@ -49,7 +47,6 @@ const Lit = z.object({
 
 const Page = z.object({
 	title,
-	tagline,
 	date,
 	update,
 	cover,
